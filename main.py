@@ -2,10 +2,14 @@ import csv
 import datetime
 import math
 import statistics as stat
+import logging
 
 import requests
 import validators
 from bs4 import BeautifulSoup
+
+log = logging.getLogger("imdb scraper")
+logging.basicConfig(level = logging.INFO)
 
 
 def connect_to_url(page_url):
@@ -13,7 +17,7 @@ def connect_to_url(page_url):
         page = requests.get(page_url)
         return page
     except ConnectionError as e:
-        print(e)
+        log.error(e)
 
 
 def is_valid_page(page):
@@ -99,7 +103,7 @@ def get_title_count(page_url):
     year_info = ""
     page = connect_to_url(page_url)
     if not is_valid_page(page):
-        print(page_error_info(page_url, page))
+        log.warning(page_error_info(page_url, page))
         return year_info
     soup = BeautifulSoup(page.text, 'html.parser')
     desc_data = soup.find_all('div', "desc")
@@ -112,7 +116,7 @@ def get_title_count(page_url):
 
 def get_file(file_name):
     if is_file_open(file_name):
-        print("Unable to output data. File is open : {}".format(file_name))
+        log.warning("Unable to output data. File is open : {}".format(file_name))
         return
     log_file = open(file_name, mode='w', newline='', encoding="utf-8")
     return log_file
@@ -123,7 +127,7 @@ def export_top_film_list(film_list):
     export_file = get_file(file_name)
     if export_file:
         with export_file:
-            print("exporting : {}".format(file_name))
+            log.info("exporting : {}".format(file_name))
             export_writer = csv.writer(export_file, delimiter=',')
             export_writer.writerow(["rank", "film_title", "film_year", "film_rating", "link_url"])
             rank = 1
@@ -138,7 +142,7 @@ def export_aggregation_summary(year_dict):
     export_file = get_file(file_name)
     if export_file:
         with export_file:
-            print("exporting : {}".format(file_name))
+            log.info("exporting : {}".format(file_name))
             export_writer = csv.writer(export_file, delimiter=',')
             export_writer.writerow(["release_year", "decade_start_year", "total_count_in_IMDB",
                                     "top_1000_count", "top_1000_rating_total", "top_1000_average_rating",
@@ -164,7 +168,7 @@ def export_aggregation_summary(year_dict):
 
 def get_total_film_counts():
     # retrieves the number of movies listed on
-    # IMDB in each year since 1900 upto the current year
+    # IMDB in each year since 1900 up to the current year
 
     now = datetime.datetime.now()
     year_dict = {}
@@ -173,7 +177,7 @@ def get_total_film_counts():
     latest_year = now.year
     for year in range(latest_year, earliest_year, -1):
         url = main_url.format(year)
-        print("processing : ", url)
+        log.info("processing : " + url)
         if validators.url(url):
             year_data = get_title_count(url)
             year_info = get_year_info(year, year_data)
@@ -182,11 +186,11 @@ def get_total_film_counts():
 
 
 def get_film_info_from_page(page_url):
-    print("processing : ", page_url)
+    log.info("processing : " + page_url)
     results = []
     page = connect_to_url(page_url)
     if not is_valid_page(page):
-        print(page_error_info(page_url, page))
+        log.error(page_error_info(page_url, page))
         return results
 
     soup = BeautifulSoup(page.text, 'html.parser')
