@@ -34,7 +34,8 @@ def is_file_open(file_name):
         fs = open(file_name, mode='w', newline='')
         fs.close()
         return False
-    except PermissionError:
+    except PermissionError as e:
+        log.error(e)
         return True
 
 
@@ -63,6 +64,9 @@ class YearInfo:
 
     def get_percentage_top_films_in_year(self):
         return float(self.top_film_count) / float(self.total_count_in_year) if self.total_count_in_year > 0 else 0
+
+    def get_percentage_top_films_in_1000(self):
+        return float(self.top_film_count) / float(1000)
 
     def get_decade(self):
         year = int(self.film_year)
@@ -146,7 +150,7 @@ def export_aggregation_summary(year_dict):
             export_writer = csv.writer(export_file, delimiter=',')
             export_writer.writerow(["release_year", "decade_start_year", "total_count_in_IMDB",
                                     "top_1000_count", "top_1000_rating_total", "top_1000_average_rating",
-                                    "percentage_of_top_1000_total", "top_1000_std_dev_ratings",
+                                    "percentage_of_year_total", "percentage_of_top_1000","top_1000_std_dev_ratings",
                                     "top_10_count", "top_20_count", "top_50_count",
                                     "top_100_count", "top_250_count", "top_500_count"])
             for key in year_dict:
@@ -157,6 +161,7 @@ def export_aggregation_summary(year_dict):
                                         year_dict[key].top_film_rating_total,
                                         year_dict[key].get_average_rating(),
                                         year_dict[key].get_percentage_top_films_in_year(),
+                                        year_dict[key].get_percentage_top_films_in_1000(),
                                         year_dict[key].get_standard_dev_ratings(),
                                         year_dict[key].top_10_count,
                                         year_dict[key].top_20_count,
