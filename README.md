@@ -6,7 +6,7 @@ It produces 2 output CSV files.
 
 Output File #1: top_films_list.csv
 
-This is just the entire list of top 1000 films according to their rating on IMDB
+This is the entire list of top 1000 films according to their rating on IMDB.
 
 Output File #2: aggregation_summary.csv
 
