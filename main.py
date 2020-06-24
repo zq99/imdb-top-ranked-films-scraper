@@ -9,7 +9,7 @@ import validators
 from bs4 import BeautifulSoup
 
 log = logging.getLogger("imdb scraper")
-logging.basicConfig(level = logging.INFO)
+logging.basicConfig(level=logging.INFO)
 
 
 def connect_to_url(page_url):
@@ -63,10 +63,11 @@ class YearInfo:
                      2) if self.top_film_count > 0 else 0.0
 
     def get_percentage_top_films_in_year(self):
-        return float(self.top_film_count) / float(self.total_count_in_year) if self.total_count_in_year > 0 else 0
+        return (float(self.top_film_count) / float(
+            self.total_count_in_year) if self.total_count_in_year > 0 else 0) * 100
 
     def get_percentage_top_films_in_1000(self):
-        return float(self.top_film_count) / float(1000)
+        return (float(self.top_film_count) / float(1000)) * 100
 
     def get_decade(self):
         year = int(self.film_year)
@@ -139,6 +140,8 @@ def export_top_film_list(film_list):
                 for film in film_list:
                     export_writer.writerow([rank, film.film_title, film.film_year, film.get_rating_value(), film.url])
                     rank += 1
+    else:
+        log.warning("Unable to create and export file: ", file_name)
 
 
 def export_aggregation_summary(year_dict):
@@ -150,7 +153,7 @@ def export_aggregation_summary(year_dict):
             export_writer = csv.writer(export_file, delimiter=',')
             export_writer.writerow(["release_year", "decade_start_year", "total_count_in_IMDB",
                                     "top_1000_count", "top_1000_rating_total", "top_1000_average_rating",
-                                    "percentage_of_year_total", "percentage_of_top_1000","top_1000_std_dev_ratings",
+                                    "percentage_of_year_total", "percentage_of_top_1000", "top_1000_std_dev_ratings",
                                     "top_10_count", "top_20_count", "top_50_count",
                                     "top_100_count", "top_250_count", "top_500_count"])
             for key in year_dict:
@@ -169,6 +172,8 @@ def export_aggregation_summary(year_dict):
                                         year_dict[key].top_100_count,
                                         year_dict[key].top_250_count,
                                         year_dict[key].top_500_count])
+    else:
+        log.warning("Unable to create and export file: ", file_name)
 
 
 def get_total_film_counts():
