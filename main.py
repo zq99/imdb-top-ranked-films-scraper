@@ -141,7 +141,7 @@ def export_top_film_list(film_list):
                     export_writer.writerow([rank, film.film_title, film.film_year, film.get_rating_value(), film.url])
                     rank += 1
     else:
-        log.warning("Unable to create and export file: ", file_name)
+        log.warning("Unable to create and export file: " + file_name)
 
 
 def export_aggregation_summary(year_dict):
@@ -173,7 +173,7 @@ def export_aggregation_summary(year_dict):
                                         year_dict[key].top_250_count,
                                         year_dict[key].top_500_count])
     else:
-        log.warning("Unable to create and export file: ", file_name)
+        log.warning("Unable to create and export file: " + file_name)
 
 
 def get_total_film_counts():
