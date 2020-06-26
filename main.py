@@ -87,6 +87,14 @@ class Film:
     def get_rating_value(self):
         return float(self.rating)
 
+    def get_word_count_in_title(self):
+        return len(self.film_title.strip().split(" ")) if len(self.film_title) > 0 else 0
+
+    def has_number_in_title(self):
+        if len(self.film_title) == 0:
+            return "N"
+        return "Y" if any(i.isdigit() for i in self.film_title) else "N"
+
 
 def get_year_info(year, year_data):
     film_count_in_year_text = get_film_count_in_year_text(year_data)
@@ -134,11 +142,13 @@ def export_top_film_list(film_list):
         with export_file:
             log.info("exporting : {}".format(file_name))
             export_writer = csv.writer(export_file, delimiter=',')
-            export_writer.writerow(["rank", "film_title", "film_year", "film_rating", "link_url"])
+            export_writer.writerow(["rank", "film_title", "film_year", "film_rating", "title_word_count",
+                                    "has_number_in_title","link_url"])
             rank = 1
             if film_list:
                 for film in film_list:
-                    export_writer.writerow([rank, film.film_title, film.film_year, film.get_rating_value(), film.url])
+                    export_writer.writerow([rank, film.film_title, film.film_year, film.get_rating_value(),
+                                            film.get_word_count_in_title(),film.has_number_in_title(),film.url])
                     rank += 1
     else:
         log.warning("Unable to create and export file: " + file_name)
