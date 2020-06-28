@@ -171,7 +171,7 @@ def export_aggregation_summary(year_dict):
                                         year_dict[key].get_decade(),
                                         year_dict[key].total_count_in_year,
                                         year_dict[key].top_film_count,
-                                        year_dict[key].top_film_rating_total,
+                                        round(year_dict[key].top_film_rating_total,2),
                                         year_dict[key].get_average_rating(),
                                         year_dict[key].get_percentage_top_films_in_year(),
                                         year_dict[key].get_percentage_top_films_in_1000(),
