@@ -56,18 +56,18 @@ class YearInfo:
         self.top_500_count = 0
 
     def get_standard_dev_ratings(self):
-        return stat.pstdev(self.rating_values_list) if len(self.rating_values_list) > 0 else 0
+        return round(stat.pstdev(self.rating_values_list),2) if len(self.rating_values_list) > 0 else 0
 
     def get_average_rating(self):
         return round(float(self.top_film_rating_total) / float(self.top_film_count),
                      2) if self.top_film_count > 0 else 0.0
 
     def get_percentage_top_films_in_year(self):
-        return (float(self.top_film_count) / float(
-            self.total_count_in_year) if self.total_count_in_year > 0 else 0) * 100
+        return round((float(self.top_film_count) / float(
+            self.total_count_in_year) if self.total_count_in_year > 0 else 0) * 100,2)
 
     def get_percentage_top_films_in_1000(self):
-        return (float(self.top_film_count) / float(1000)) * 100
+        return round((float(self.top_film_count) / float(1000)) * 100,2)
 
     def get_decade(self):
         year = int(self.film_year)
