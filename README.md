@@ -6,17 +6,13 @@ It produces 2 output CSV files.
 
 Output File #1: 
 
-'''
-top_films_list.csv
-'''
+> top_films_list.csv
 
 This is the entire list of top 1000 films ranked by rating on IMDB.
 
 Output File #2: 
 
-'''
-aggregation_summary.csv
-'''
+>aggregation_summary.csv
 
 This file is the top 1000 films aggregated by each year, starting from 1900.
 
