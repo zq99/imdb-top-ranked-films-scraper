@@ -1,4 +1,4 @@
-# IMDB Top 1000 Films Scraper
+# IMDB Top Ranked Films Scraper
 
 This is a simple Python script that uses the Beautiful Soup library to scrape IMDB's list of Top 1000 films.
 
