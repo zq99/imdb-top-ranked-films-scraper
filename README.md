@@ -4,9 +4,8 @@ This is a simple Python script that uses the Beautiful Soup library to scrape IM
 
 It produces 2 output CSV files:
 
-> top_films_list.csv
-
-> aggregation_summary.csv
+> - top_films_list.csv
+> - aggregation_summary.csv
 
 The first file is the entire list of top 1000 films ranked by rating on IMDB:
  
