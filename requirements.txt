@@ -36,6 +36,6 @@ textstat==0.6.2
 tldextract==2.2.2
 tqdm==4.46.1
 twine==3.1.1
-urllib3==1.25.9
+urllib3==1.26.5
 validators==0.16.0
 webencodings==0.5.1
