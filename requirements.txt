@@ -9,7 +9,7 @@ fsspec==0.8.0
 idna==2.9
 joblib==0.16.0
 keyring==21.2.1
-lxml==4.5.2
+lxml==4.6.3
 nltk==3.5
 numpy==1.19.1
 packaging==20.4
